@@ -3,17 +3,20 @@ import client from '~/plugins/contentful'
 export const state = () => ({
   about: '',
   works: [],
+  releases: [],
   categories: []
 })
 
 //データをstateにセット
 export const mutations = {
-  //Post
   setAbout(state, payload) {
     state.about = payload
   },
   setWorks(state, payload) {
     state.works = payload
+  },
+  setReleases(state, payload) {
+    state.releases = payload
   },
   //Category
   setCategories(state, payload) {
@@ -23,20 +26,27 @@ export const mutations = {
 
 //Contentful APIを取得
 export const actions = {
-  //Blog Post
-  async getPosts({ commit }) {
+  async getAbout({ commit }) {
     await client.getEntries({
-      content_type: process.env.CTF_BLOG_POST_TYPE_ID,
-      order: '-fields.publishDate'
+      content_type: process.env.CTF_ABOUT
     }).then(entries => {
-      const about = entries.items.find(item => {
-        return item.fields.category.fields.slug === 'about'
-      })
-      const works = entries.items.filter(item => {
-        return item.fields.category.fields.slug === 'works'
-      })
-      commit('setAbout', about)
-      commit('setWorks', works)
+      commit('setAbout', entries.items)
+    }).catch(console.error)
+  },
+  async getWorks({ commit }) {
+    await client.getEntries({
+      content_type: process.env.CTF_WORKS,
+      order: 'fields.id'
+    }).then(entries => {
+      commit('setWorks', entries.items)
+    }).catch(console.error)
+  },
+  async getReleases({ commit }) {
+    await client.getEntries({
+      content_type: process.env.CTF_RELEASES,
+      order: 'fields.id'
+    }).then(entries => {
+      commit('setReleases', entries.items)
     }).catch(console.error)
   },
   //Category

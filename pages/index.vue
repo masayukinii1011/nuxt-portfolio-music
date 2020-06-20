@@ -20,7 +20,7 @@
 export default {
   data() {
     return {
-      text: "My Portfolio Website"
+      text: "Masayuki Nii"
     };
   }
 };
