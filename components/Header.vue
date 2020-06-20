@@ -46,7 +46,7 @@
                 :key="i"
                 :to="{ name: category }"
                 class="navbar-item has-text-weight-bold has-text-white"
-              >{{category}}</nuxt-link>
+              >{{category.charAt(0).toUpperCase() + category.slice(1)}}</nuxt-link>
               <nuxt-link
                 @click.native="isOpen = false"
                 to="/contact"
@@ -69,9 +69,7 @@ export default {
   },
   computed: {
     categories() {
-      return Object.keys(this.$store.state).map(category => {
-        return category.charAt(0).toUpperCase() + category.slice(1);
-      });
+      return Object.keys(this.$store.state);
     }
   }
 };
