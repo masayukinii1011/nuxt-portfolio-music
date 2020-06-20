@@ -2,8 +2,8 @@ import client from '~/plugins/contentful'
 
 export const state = () => ({
   about: '',
-  works: [],
-  releases: [],
+  works: '',
+  releases: '',
 })
 
 //データをstateにセット
