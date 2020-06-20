@@ -26,9 +26,9 @@
             <nuxt-link
               v-for="(category, i) in categories"
               :key="i"
-              :to="{ name: category.fields.slug }"
+              :to="{ name: category }"
               class="navbar-item has-text-weight-bold has-text-white"
-            >{{category.fields.title}}</nuxt-link>
+            >{{category}}</nuxt-link>
             <nuxt-link to="/contact" class="navbar-item has-text-weight-bold has-text-white">Contact</nuxt-link>
           </div>
         </div>
@@ -44,9 +44,9 @@
                 v-for="(category, i) in categories"
                 @click.native="isOpen = false"
                 :key="i"
-                :to="{ name: category.fields.slug }"
+                :to="{ name: category }"
                 class="navbar-item has-text-weight-bold has-text-white"
-              >{{category.fields.title}}</nuxt-link>
+              >{{category}}</nuxt-link>
               <nuxt-link
                 @click.native="isOpen = false"
                 to="/contact"
@@ -61,9 +61,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import client from "~/plugins/contentful";
-
 export default {
   data: function() {
     return {
@@ -71,7 +68,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["categories"])
+    categories() {
+      return Object.keys(this.$store.state).map(category => {
+        return category.charAt(0).toUpperCase() + category.slice(1);
+      });
+    }
   }
 };
 </script>

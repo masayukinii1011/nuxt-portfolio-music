@@ -4,7 +4,6 @@ export const state = () => ({
   about: '',
   works: [],
   releases: [],
-  categories: []
 })
 
 //データをstateにセット
@@ -18,10 +17,6 @@ export const mutations = {
   setReleases(state, payload) {
     state.releases = payload
   },
-  //Category
-  setCategories(state, payload) {
-    state.categories = payload
-  }
 }
 
 //Contentful APIを取得
@@ -49,13 +44,4 @@ export const actions = {
       commit('setReleases', entries.items)
     }).catch(console.error)
   },
-  //Category
-  async getCategories({ commit }) {
-    await client.getEntries({
-      content_type: 'category',
-      order: 'fields.id'
-    }).then(entries =>
-      commit('setCategories', entries.items)
-    ).catch(console.error)
-  }
 }
