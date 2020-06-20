@@ -4,51 +4,31 @@
       <div class="container">
         <section class="section">
           <div class="container has-text-centered">
-            <h2 class="has-text-weight-bold title">{{title}}</h2>
+            <h2 class="has-text-weight-bold title">{{$nuxt.$route.name.toUpperCase()}}</h2>
           </div>
         </section>
-        <div class="image-wrapper" v-if="imgSrc">
-          <img :src="imgSrc" :alt="imgAlt" />
+        <div class="image-wrapper">
+          <img
+            :src="about[0].fields.image.fields.file.url"
+            :alt="about[0].fields.image.fields.title"
+          />
         </div>
-        <div
-          v-if="facebookURL || soundcloudURL"
-          class="button-wrap"
-          :class="{'about' : $route.name === 'about'}"
-        >
-          <a v-if="facebookURL" :href="facebookURL" target="_blank" class="button">Facebook</a>
-          <a v-if="soundcloudURL" :href="soundcloudURL" target="_blank" class="button">Soundcloud</a>
+        <div class="button-wrap" :class="{'about' : $route.name === 'about'}">
+          <a :href="about[0].fields.links.facebook" target="_blank" class="button">Facebook</a>
+          <a :href="about[0].fields.links.soundcloud" target="_blank" class="button">Soundcloud</a>
         </div>
-        <div class="text-body" v-html="$md.render(body)"></div>
+        <div class="text-body" v-html="$md.render(about[0].fields.body)"></div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   computed: {
-    title() {
-      return this.$store.state.about[0].fields.title;
-    },
-    body() {
-      return this.$store.state.about[0].fields.body;
-    },
-    facebookURL() {
-      return this.$store.state.about[0].fields.link.facebook;
-    },
-    soundcloudURL() {
-      return this.$store.state.about[0].fields.link.soundcloud;
-    },
-    imgSrc() {
-      return this.$store.state.about[0].fields.image.fields.file.url;
-    },
-    imgAlt() {
-      return;
-      this.$store.state.about[0].fields.image.fields.title;
-    }
-  },
-  mounted: function() {
-    console.log(this.$store.state.about[0].fields);
+    ...mapState(["about"])
   }
 };
 </script>
